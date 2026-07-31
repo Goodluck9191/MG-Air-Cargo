@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MG AIR CARGO | Fast, Secure & Reliable Air Cargo Services in Dar es Salaam</title>
+<meta name="description" content="MG AIR CARGO is a trusted logistics and transportation company in Dar es Salaam, Tanzania offering air cargo, freight forwarding, parcel delivery and express shipping with a 5.0 Google rating.">
+<meta name="keywords" content="air cargo Tanzania, freight forwarding Dar es Salaam, logistics company, parcel delivery, cargo tracking, express shipping">
+
+<!-- Google Fonts: Poppins (display) + Inter (body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   MG AIR CARGO — Stylesheet
+   Design tokens, layout (Flexbox + Grid), and CSS animations.
+   ========================================================= */
+
+:root {
+  /* Brand palette (from brief) */
+  --primary: #0056b3;
+  --primary-dark: #003d82;
+  --secondary: #00AEEF;
+  --accent: #FFB400;
+  --bg: #ffffff;
+  --text: #333333;
+  --text-light: #667085;
+  --navy: #04142d;      /* derived deep navy for depth/footer */
+  --navy-soft: #0a2540;
+
+  /* Type */
+  --font-display: 'Poppins', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Layout */
+  --max-width: 1180px;
+  --radius: 14px;
+  --shadow: 0 10px 30px rgba(4, 20, 45, 0.08);
+  --shadow-lg: 0 20px 50px rgba(4, 20, 45, 0.16);
+  --transition: 0.35s cubic-bezier(.22,.9,.32,1);
+}
+
+/* ---------- Reset ---------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+h1, h2, h3, h4 { font-family: var(--font-display); color: var(--navy); line-height: 1.2; }
+
+.skip-link {
+  position: absolute; left: -999px; top: 0; background: var(--primary); color: #fff;
+  padding: 12px 18px; z-index: 999; border-radius: 0 0 8px 0;
+}
+.skip-link:focus { left: 0; }
+
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+.section-container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+.eyebrow {
+  font-family: var(--font-display); font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+  font-size: .78rem; color: var(--secondary); margin-bottom: 12px;
+}
+.eyebrow-dark { color: var(--primary); }
+.section-title { font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 700; margin-bottom: 16px; }
+.section-title--light { color: #fff; }
+.section-text { color: var(--text-light); max-width: 620px; }
+.section-head { text-align: center; margin: 0 auto 48px; max-width: 700px; }
+.section-head .section-text { margin: 0 auto; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px; border-radius: 50px; font-weight: 600; font-size: .95rem;
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+  isolation: isolate;
+}
+.btn:active { transform: scale(.96); }
+.btn-primary { background: var(--accent); color: var(--navy); box-shadow: 0 8px 20px rgba(255,180,0,.35); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba(255,180,0,.45); }
+.btn-outline { border: 2px solid rgba(255,255,255,.7); color: #fff; }
+.btn-outline:hover { background: #fff; color: var(--primary); transform: translateY(-3px); }
+.btn-outline-dark { border: 2px solid var(--primary); color: var(--primary); }
+.btn-outline-dark:hover { background: var(--primary); color: #fff; transform: translateY(-3px); }
+.btn-call {
+  background: var(--primary); color: #fff; padding: 10px 20px; font-size: .88rem;
+  box-shadow: 0 6px 16px rgba(0,86,179,.3);
+}
+.btn-call:hover { background: var(--primary-dark); }
+
+/* Button ripple (JS adds .ripple-el span on click) */
+.ripple-el {
+  position: absolute; border-radius: 50%; transform: scale(0);
+  background: rgba(255,255,255,.55); animation: ripple 600ms ease-out; pointer-events: none; z-index: -1;
+}
+@keyframes ripple { to { transform: scale(3); opacity: 0; } }
+
+/* Pulse for contact button animation */
+.pulse-once { animation: pulseOnce .5s ease; }
+@keyframes pulseOnce { 0%{transform:scale(1);} 40%{transform:scale(1.08);} 100%{transform:scale(1);} }
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+.navbar {
+  position: fixed; top: 0; left: 0; width: 100%; z-index: 500;
+  transition: background var(--transition), box-shadow var(--transition), padding var(--transition);
+  padding: 18px 0;
+}
+.navbar.scrolled { background: rgba(4,20,45,.92); backdrop-filter: blur(8px); box-shadow: 0 6px 24px rgba(0,0,0,.15); padding: 10px 0; }
+.nav-container {
+  max-width: var(--max-width); margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo { display: flex; align-items: center; gap: 10px; color: #fff; }
+.logo-mark { color: var(--accent); display: flex; }
+.logo-text { font-family: var(--font-display); font-weight: 500; font-size: 1.15rem; letter-spacing: .02em; }
+.logo-text b { font-weight: 800; }
+
+.nav-links { display: flex; gap: 34px; }
+.nav-link { color: #fff; font-weight: 500; font-size: .95rem; position: relative; padding: 6px 0; }
+.nav-link::after {
+  content: ''; position: absolute; left: 0; bottom: -2px; height: 2px; width: 0; background: var(--accent);
+  transition: width var(--transition);
+}
+.nav-link:hover::after, .nav-link.active-link::after { width: 100%; }
+.nav-link.active-link { color: var(--accent); }
+
+.nav-actions { display: flex; align-items: center; gap: 18px; }
+
+.hamburger { display: none; flex-direction: column; gap: 5px; width: 26px; }
+.hamburger span { display: block; height: 2px; width: 100%; background: #fff; transition: var(--transition); }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero {
+  position: relative; min-height: 100vh; display: flex; align-items: center;
+  color: #fff; overflow: hidden;
+}
+.hero-slides { position: absolute; inset: 0; z-index: 0; }
+.hero-slide {
+  position: absolute; inset: 0; background-size: cover; background-position: center;
+  opacity: 0; transition: opacity 1.4s ease;
+}
+.hero-slide.active { opacity: 1; }
+
+.radar-grid {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(circle at 30% 50%, black 0%, transparent 70%);
+}
+.radar-grid--light {
+  background-image:
+    linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+  mask-image: radial-gradient(circle at 80% 30%, black 0%, transparent 65%);
+}
+
+.hero-container { position: relative; z-index: 2; max-width: 640px; padding: 0 24px 0 6vw; }
+.hero-container .eyebrow { color: var(--secondary); }
+.hero-title { font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 800; color: #fff; margin-bottom: 18px; }
+.hero-sub { font-size: 1.05rem; color: rgba(255,255,255,.85); max-width: 480px; margin-bottom: 22px; }
+
+.hero-rating { display: flex; align-items: center; gap: 10px; margin-bottom: 30px; font-weight: 600; }
+.stars { color: var(--accent); letter-spacing: 2px; }
+.stars-lg { font-size: 1.6rem; display: block; margin-bottom: 8px; }
+
+.hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+
+/* Signature flight-route map graphic */
+.flight-map {
+  position: absolute; right: 2vw; bottom: -4vh; width: min(38vw, 460px); height: min(38vw, 460px);
+  z-index: 2; opacity: .9;
+}
+.route-dashes path { animation: dashMove 3.2s linear infinite; }
+@keyframes dashMove { to { stroke-dashoffset: -140; } }
+.node-origin { fill: var(--accent); }
+.node-dest { fill: var(--secondary); }
+.node-pulse {
+  fill: none; stroke: var(--accent); stroke-width: 2; opacity: .8;
+  transform-origin: 60px 300px; animation: pulseRing 2.2s ease-out infinite;
+}
+@keyframes pulseRing { 0% { transform: scale(.6); opacity: .8; } 100% { transform: scale(2.4); opacity: 0; } }
+.plane-icon path { filter: drop-shadow(0 0 3px rgba(255,255,255,.6)); }
+
+.hero-dots { position: absolute; left: 6vw; bottom: 40px; z-index: 2; display: flex; gap: 10px; }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,.4); transition: var(--transition); }
+.dot.active { background: var(--accent); width: 26px; border-radius: 5px; }
+
+.scroll-cue {
+  position: absolute; bottom: 34px; right: 6vw; z-index: 2; width: 26px; height: 42px;
+  border: 2px solid rgba(255,255,255,.6); border-radius: 20px; display: none;
+}
+.scroll-cue span { position: absolute; top: 6px; left: 50%; width: 4px; height: 8px; background: var(--accent); border-radius: 2px; transform: translateX(-50%); animation: scrollCue 1.6s infinite; }
+@keyframes scrollCue { 0% { opacity: 1; top: 6px; } 100% { opacity: 0; top: 22px; } }
+
+@media (min-width: 900px) { .scroll-cue { display: block; } }
+
+/* =========================================================
+   TRUST STRIP
+   ========================================================= */
+.trust-strip { background: var(--navy-soft); color: #fff; position: relative; z-index: 3; }
+.trust-strip-inner {
+  max-width: var(--max-width); margin: 0 auto; padding: 26px 24px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; text-align: center;
+}
+.trust-item strong { display: block; font-family: var(--font-display); font-size: 1.4rem; color: var(--accent); }
+.trust-item span { font-size: .82rem; color: rgba(255,255,255,.7); }
+
+/* =========================================================
+   ABOUT
+   ========================================================= */
+.about { padding: 100px 0; }
+.about-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 64px; align-items: center; }
+.about-media { position: relative; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-lg); }
+.about-media img { border-radius: var(--radius); }
+.about-badge {
+  position: absolute; left: -20px; bottom: -20px; background: var(--primary); color: #fff;
+  display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-radius: 12px; box-shadow: var(--shadow-lg);
+}
+.about-badge strong { display: block; font-family: var(--font-display); }
+.about-badge span { font-size: .78rem; color: rgba(255,255,255,.8); }
+
+.about-list { margin: 24px 0 30px; display: flex; flex-direction: column; gap: 12px; }
+.about-list li { display: flex; align-items: center; gap: 10px; font-weight: 500; }
+
+/* =========================================================
+   SERVICES
+   ========================================================= */
+.services { padding: 100px 0; background: #F7FAFD; }
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.service-card {
+  background: #fff; padding: 36px 28px; border-radius: var(--radius); box-shadow: var(--shadow);
+  border: 1px solid transparent; transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+.service-card:hover {
+  transform: translateY(-8px); box-shadow: var(--shadow-lg); border-color: var(--secondary);
+}
+.service-icon {
+  width: 58px; height: 58px; border-radius: 14px; background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+  transition: transform var(--transition);
+}
+.service-icon svg { width: 28px; height: 28px; }
+.service-card:hover .service-icon { transform: rotate(-8deg) scale(1.08); }
+.service-card h3 { font-size: 1.15rem; margin-bottom: 10px; }
+.service-card p { color: var(--text-light); font-size: .93rem; }
+
+/* =========================================================
+   WHY CHOOSE US
+   ========================================================= */
+.why-us { position: relative; padding: 100px 0; background: linear-gradient(135deg, var(--navy), var(--primary-dark)); overflow: hidden; }
+.why-us .section-text { color: rgba(255,255,255,.75); }
+.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; position: relative; z-index: 2; }
+.feature-box {
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius);
+  padding: 32px 24px; text-align: center; backdrop-filter: blur(4px);
+  transition: transform var(--transition), background var(--transition);
+}
+.feature-box:hover { transform: translateY(-6px); background: rgba(255,255,255,.1); }
+.feature-icon { font-size: 2.1rem; display: inline-block; margin-bottom: 14px; }
+.feature-box h3 { color: #fff; font-size: 1.05rem; margin-bottom: 8px; }
+.feature-box p { color: rgba(255,255,255,.65); font-size: .88rem; }
+
+.float { animation: floatY 3.4s ease-in-out infinite; }
+@keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+/* =========================================================
+   REVIEWS
+   ========================================================= */
+.reviews { padding: 100px 0; }
+.rating-badge { display: flex; flex-direction: column; align-items: center; }
+.reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.review-card {
+  position: relative; background: #fff; border: 1px solid #eef1f6; border-radius: var(--radius);
+  padding: 34px 28px; box-shadow: var(--shadow); transition: transform var(--transition), box-shadow var(--transition);
+}
+.review-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+.quote-mark { position: absolute; top: 14px; right: 22px; font-size: 3rem; font-family: var(--font-display); color: #eef3fb; }
+.review-card .stars { display: block; margin-bottom: 14px; font-size: .95rem; }
+.review-card p { color: var(--text); margin-bottom: 22px; font-size: .95rem; }
+.reviewer { display: flex; align-items: center; gap: 12px; }
+.avatar {
+  width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700;
+}
+.reviewer strong { display: block; font-size: .9rem; }
+.reviewer span { font-size: .8rem; color: var(--text-light); }
+
+/* =========================================================
+   CONTACT
+   ========================================================= */
+.contact { padding: 100px 0; background: #F7FAFD; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+.contact-card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px; margin: 26px 0; }
+.contact-row { display: flex; gap: 16px; padding: 14px 0; border-bottom: 1px solid #eef1f6; }
+.contact-row:last-child { border-bottom: none; }
+.contact-icon { font-size: 1.4rem; }
+.contact-row strong { display: block; margin-bottom: 4px; font-family: var(--font-display); }
+.contact-row p { color: var(--text-light); font-size: .93rem; }
+
+.contact-map { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-lg); }
+.contact-map iframe { width: 100%; height: 400px; border: 0; display: block; }
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+.footer { background: var(--navy); color: rgba(255,255,255,.75); padding: 70px 0 0; }
+.footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1.2fr 1fr; gap: 40px; padding-bottom: 50px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.footer-col h4 { color: #fff; font-size: 1rem; margin-bottom: 18px; }
+.footer-col p { font-size: .9rem; margin-bottom: 10px; }
+.footer-col a { display: block; font-size: .9rem; margin-bottom: 10px; transition: color var(--transition); }
+.footer-col a:hover { color: var(--accent); }
+.logo-footer { margin-bottom: 14px; }
+.social-icons { display: flex; gap: 10px; }
+.social-icon {
+  width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,.08);
+  display: flex; align-items: center; justify-content: center; transition: var(--transition);
+}
+.social-icon:hover { background: var(--accent); color: var(--navy); transform: translateY(-3px); }
+.footer-bottom { text-align: center; padding: 22px 0; font-size: .82rem; }
+
+/* =========================================================
+   BACK TO TOP
+   ========================================================= */
+.back-to-top {
+  position: fixed; right: 24px; bottom: 24px; width: 46px; height: 46px; border-radius: 50%;
+  background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow-lg); opacity: 0; visibility: hidden; transform: translateY(10px);
+  transition: var(--transition); z-index: 400;
+}
+.back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+.back-to-top:hover { background: var(--accent); color: var(--navy); }
+
+/* =========================================================
+   SCROLL REVEAL (driven by JS toggling .in-view)
+   ========================================================= */
+.reveal { opacity: 0; transform: translateY(34px); transition: opacity .8s ease, transform .8s ease; }
+.reveal.in-view { opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 1024px) {
+  .about-grid { grid-template-columns: 1fr; }
+  .flight-map { display: none; }
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+  .contact-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 780px) {
+  .nav-links {
+    position: fixed; top: 0; right: -100%; height: 100vh; width: min(78vw, 320px);
+    background: var(--navy); flex-direction: column; padding: 100px 32px; gap: 28px;
+    transition: right var(--transition); box-shadow: -10px 0 30px rgba(0,0,0,.2);
+  }
+  .nav-links.open { right: 0; }
+  .hamburger { display: flex; }
+  .nav-actions .btn-call { display: none; }
+  .hero-container { padding: 0 24px; text-align: left; }
+  .trust-strip-inner { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .services-grid, .features-grid, .reviews-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 2rem; }
+  .about, .services, .why-us, .reviews, .contact { padding: 70px 0; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ============ SKIP LINK (Accessibility) ============ -->
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- ============ HEADER / NAVIGATION ============ -->
+<header class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="#home" class="logo" aria-label="MG AIR CARGO home">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" width="34" height="34" fill="none">
+          <path d="M6 24 L26 6 L30 10 L18 22 H40 L44 24 L40 26 H18 L30 38 L26 42 Z" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="logo-text">MG <b>AIR CARGO</b></span>
+    </a>
+
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="#home" class="nav-link active-link">Home</a>
+      <a href="#services" class="nav-link">Services</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a href="tel:+255761373831" class="btn btn-call" data-ripple>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Call Now
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO SECTION ============ -->
+  <section class="hero" id="home">
+    <div class="hero-slides" id="heroSlides" aria-hidden="true">
+      <div class="hero-slide active" style="background-image:linear-gradient(115deg, rgba(4,20,45,.92), rgba(0,86,179,.75)), url('https://images.unsplash.com/photo-1616401784845-180882ba9ba8?q=80&w=1600&auto=format&fit=crop')"></div>
+      <div class="hero-slide" style="background-image:linear-gradient(115deg, rgba(4,20,45,.92), rgba(0,86,179,.75)), url('https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?q=80&w=1600&auto=format&fit=crop')"></div>
+      <div class="hero-slide" style="background-image:linear-gradient(115deg, rgba(4,20,45,.92), rgba(0,86,179,.75)), url('https://images.unsplash.com/photo-1494412651409-8963ce7935a7?q=80&w=1600&auto=format&fit=crop')"></div>
+    </div>
+
+    <div class="radar-grid" aria-hidden="true"></div>
+
+    <div class="hero-container reveal">
+      <p class="eyebrow">Dar es Salaam &middot; Tanzania</p>
+      <h1 class="hero-title">Fast, Secure &amp; Reliable<br>Air Cargo Services</h1>
+      <p class="hero-sub">We provide dependable cargo transportation services across Tanzania and beyond.</p>
+
+      <div class="hero-rating" aria-label="5.0 star rating on Google">
+        <span class="stars" aria-hidden="true">★★★★★</span>
+        <span>5.0 Google Rating</span>
+      </div>
+
+      <div class="hero-btns">
+        <a href="#contact" class="btn btn-primary" data-ripple>Get Quote</a>
+        <a href="tel:+255761373831" class="btn btn-outline" data-ripple>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Call Now
+        </a>
+      </div>
+    </div>
+
+    <!-- Signature element: animated flight-route map -->
+    <div class="flight-map" aria-hidden="true">
+      <svg viewBox="0 0 420 420" width="100%" height="100%">
+        <g class="route-dashes">
+          <path id="routeA" d="M60 300 Q 160 140 230 190" fill="none" stroke="#00AEEF" stroke-width="2" stroke-dasharray="6 8"/>
+          <path id="routeB" d="M60 300 Q 220 260 330 120" fill="none" stroke="#FFB400" stroke-width="2" stroke-dasharray="6 8"/>
+          <path id="routeC" d="M60 300 Q 120 340 260 340" fill="none" stroke="#00AEEF" stroke-width="2" stroke-dasharray="6 8"/>
+        </g>
+        <circle cx="60" cy="300" r="7" class="node-origin"/>
+        <circle cx="60" cy="300" r="14" class="node-pulse"/>
+        <circle cx="230" cy="190" r="4" class="node-dest"/>
+        <circle cx="330" cy="120" r="4" class="node-dest"/>
+        <circle cx="260" cy="340" r="4" class="node-dest"/>
+        <g class="plane-icon">
+          <path d="M0 0 L14 4 L0 8 L3 4 Z" fill="#fff"/>
+          <animateMotion dur="4s" repeatCount="indefinite" rotate="auto" path="M60 300 Q 160 140 230 190"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="hero-dots" id="heroDots">
+      <button class="dot active" data-slide="0" aria-label="Slide 1"></button>
+      <button class="dot" data-slide="1" aria-label="Slide 2"></button>
+      <button class="dot" data-slide="2" aria-label="Slide 3"></button>
+    </div>
+
+    <a href="#about" class="scroll-cue" aria-label="Scroll to next section">
+      <span></span>
+    </a>
+  </section>
+
+  <!-- ============ TRUST STRIP ============ -->
+  <div class="trust-strip reveal">
+    <div class="trust-strip-inner">
+      <div class="trust-item"><strong>24/7</strong><span>Dispatch &amp; Support</span></div>
+      <div class="trust-item"><strong>5.0★</strong><span>Google Rating</span></div>
+      <div class="trust-item"><strong>100%</strong><span>Cargo Insured Handling</span></div>
+      <div class="trust-item"><strong>TZ &amp; Beyond</strong><span>Delivery Coverage</span></div>
+    </div>
+  </div>
+
+  <!-- ============ ABOUT SECTION ============ -->
+  <section class="about" id="about">
+    <div class="section-container about-grid">
+      <div class="about-media reveal">
+        <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=1000&auto=format&fit=crop" alt="Cargo containers and freight ready for air transport" loading="lazy">
+        <div class="about-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+          <div><strong>15+ Years</strong><span>Logistics Experience</span></div>
+        </div>
+      </div>
+
+      <div class="about-content reveal">
+        <p class="eyebrow eyebrow-dark">About MG Air Cargo</p>
+        <h2 class="section-title">Your Trusted Partner in Cargo &amp; Logistics</h2>
+        <p class="section-text">
+          MG AIR CARGO is a trusted logistics and transportation company based in Dar es Salaam, providing
+          reliable cargo handling, freight forwarding, and delivery services to businesses and individuals
+          across Tanzania and beyond. From the moment your shipment leaves our hands to the moment it arrives,
+          we treat every parcel with the same care as if it were our own.
+        </p>
+        <p class="section-text">
+          Customer satisfaction sits at the center of everything we do &mdash; backed by a professional team,
+          modern tracking systems, and a five-star reputation earned one delivery at a time.
+        </p>
+
+        <ul class="about-list">
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0056b3" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg> Licensed &amp; professional cargo handling</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0056b3" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg> Real-time shipment tracking</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0056b3" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg> Nationwide &amp; international reach</li>
+        </ul>
+
+        <a href="#contact" class="btn btn-primary" data-ripple>Work With Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES SECTION ============ -->
+  <section class="services" id="services">
+    <div class="section-container">
+      <div class="section-head reveal">
+        <p class="eyebrow eyebrow-dark">What We Offer</p>
+        <h2 class="section-title">Our Cargo &amp; Logistics Services</h2>
+        <p class="section-text">End-to-end freight solutions engineered for speed, safety and peace of mind.</p>
+      </div>
+
+      <div class="services-grid">
+        <article class="service-card reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 16.5 12 12l10 4.5M2 16.5 12 21l10-4.5M2 16.5V8.5L12 4l10 4.5v8"/><path d="M12 12V4"/></svg>
+          </div>
+          <h3>Air Cargo</h3>
+          <p>Reliable air freight solutions for time-critical shipments moving across Tanzania and abroad.</p>
+        </article>
+
+        <article class="service-card reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17h2l1-6h9l3 6h3M6 11l2-5h6l2 5"/><circle cx="7.5" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/></svg>
+          </div>
+          <h3>Freight Forwarding</h3>
+          <p>Seamless coordination across carriers, customs and borders so your cargo keeps moving.</p>
+        </article>
+
+        <article class="service-card reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 8 12 3 3 8l9 5 9-5Z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>
+          </div>
+          <h3>Parcel Delivery</h3>
+          <p>Door-to-door parcel delivery handled with care from pickup to final destination.</p>
+        </article>
+
+        <article class="service-card reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+          </div>
+          <h3>Logistics Solutions</h3>
+          <p>Warehousing, route planning and supply-chain support tailored to your business.</p>
+        </article>
+
+        <article class="service-card reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2 3 14h7l-1 8 11-14h-7l1-6Z"/></svg>
+          </div>
+          <h3>Express Shipping</h3>
+          <p>Priority handling and expedited routes for urgent, time-sensitive cargo.</p>
+        </article>
+
+        <article class="service-card reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg>
+          </div>
+          <h3>Cargo Tracking</h3>
+          <p>Live shipment visibility so you always know exactly where your cargo is.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHY CHOOSE US ============ -->
+  <section class="why-us" id="why-us">
+    <div class="radar-grid radar-grid--light" aria-hidden="true"></div>
+    <div class="section-container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Why Choose Us</p>
+        <h2 class="section-title section-title--light">Built On Trust, Backed By Results</h2>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-box reveal">
+          <span class="feature-icon float">🚀</span>
+          <h3>Fast Delivery</h3>
+          <p>Optimized routes get your cargo there on time, every time.</p>
+        </div>
+        <div class="feature-box reveal">
+          <span class="feature-icon float">🛡️</span>
+          <h3>Safe Handling</h3>
+          <p>Every parcel is handled with strict care and safety protocols.</p>
+        </div>
+        <div class="feature-box reveal">
+          <span class="feature-icon float">💰</span>
+          <h3>Affordable Prices</h3>
+          <p>Transparent, competitive rates with no hidden charges.</p>
+        </div>
+        <div class="feature-box reveal">
+          <span class="feature-icon float">👨‍💼</span>
+          <h3>Professional Team</h3>
+          <p>Experienced staff trained in modern logistics operations.</p>
+        </div>
+        <div class="feature-box reveal">
+          <span class="feature-icon float">☎️</span>
+          <h3>24/7 Support</h3>
+          <p>Our team is always reachable, day or night.</p>
+        </div>
+        <div class="feature-box reveal">
+          <span class="feature-icon float">✅</span>
+          <h3>Trusted Service</h3>
+          <p>A five-star reputation built on consistency and honesty.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GOOGLE REVIEWS SECTION ============ -->
+  <section class="reviews" id="reviews">
+    <div class="section-container">
+      <div class="section-head reveal">
+        <p class="eyebrow eyebrow-dark">Customer Feedback</p>
+        <div class="rating-badge">
+          <span class="stars stars-lg" aria-hidden="true">★★★★★</span>
+          <h2 class="section-title">5.0 Google Rating</h2>
+        </div>
+      </div>
+
+      <div class="reviews-grid">
+        <article class="review-card reveal">
+          <span class="quote-mark" aria-hidden="true">&ldquo;</span>
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <p>MG Air Cargo delivered my shipment ahead of schedule and in perfect condition. Their tracking updates kept me at ease the entire time.</p>
+          <div class="reviewer"><span class="avatar">A</span><div><strong>Amina H.</strong><span>Dar es Salaam</span></div></div>
+        </article>
+
+        <article class="review-card reveal">
+          <span class="quote-mark" aria-hidden="true">&ldquo;</span>
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <p>Professional, punctual and honest pricing. Our business now ships all urgent cargo through MG Air Cargo without hesitation.</p>
+          <div class="reviewer"><span class="avatar">J</span><div><strong>James M.</strong><span>Business Owner</span></div></div>
+        </article>
+
+        <article class="review-card reveal">
+          <span class="quote-mark" aria-hidden="true">&ldquo;</span>
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <p>Excellent customer support &mdash; they answered every call and made sure my fragile cargo arrived safely. Highly recommended!</p>
+          <div class="reviewer"><span class="avatar">F</span><div><strong>Fatuma S.</strong><span>Repeat Customer</span></div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT SECTION ============ -->
+  <section class="contact" id="contact">
+    <div class="section-container contact-grid">
+      <div class="contact-info reveal">
+        <p class="eyebrow eyebrow-dark">Get In Touch</p>
+        <h2 class="section-title">Ready To Ship With Confidence?</h2>
+        <p class="section-text">Reach out for a fast quote or to schedule a pickup &mdash; our team responds around the clock.</p>
+
+        <div class="contact-card">
+          <div class="contact-row">
+            <span class="contact-icon">📍</span>
+            <div>
+              <strong>Address</strong>
+              <p>57JH+RCQ, Lumumba Street &amp; Pemba St, Dar es Salaam, Tanzania</p>
+            </div>
+          </div>
+          <div class="contact-row">
+            <span class="contact-icon">📞</span>
+            <div>
+              <strong>Phone</strong>
+              <p>+255 761 373 831</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-btns">
+          <a href="tel:+255761373831" class="btn btn-primary" id="callBtn" data-ripple>Call Now</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=57JH%2BRCQ+Lumumba+Street+Pemba+St+Dar+es+Salaam" target="_blank" rel="noopener" class="btn btn-outline-dark" data-ripple>Open in Google Maps</a>
+        </div>
+      </div>
+
+      <div class="contact-map reveal">
+        <iframe
+          title="MG AIR CARGO location map"
+          src="https://www.google.com/maps?q=57JH%2BRCQ+Lumumba+Street+Pemba+St+Dar+es+Salaam,+Tanzania&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="section-container footer-grid">
+    <div class="footer-col">
+      <a href="#home" class="logo logo-footer">
+        <span class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="30" height="30" fill="none"><path d="M6 24 L26 6 L30 10 L18 22 H40 L44 24 L40 26 H18 L30 38 L26 42 Z" fill="currentColor"/></svg>
+        </span>
+        <span class="logo-text">MG <b>AIR CARGO</b></span>
+      </a>
+      <p>Fast, secure and reliable air cargo &amp; logistics services across Tanzania and beyond.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="#home">Home</a>
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <p>📍 57JH+RCQ, Lumumba Street &amp; Pemba St, Dar es Salaam</p>
+      <p>📞 <a href="tel:+255761373831">+255 761 373 831</a></p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Follow Us</h4>
+      <div class="social-icons">
+        <a href="#" aria-label="Facebook" class="social-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M13.5 9H15V6h-1.5C11.6 6 10 7.6 10 9.5V11H8v3h2v7h3v-7h2.1l.4-3H13v-1c0-.5.5-1 .5-1Z"/></svg></a>
+        <a href="#" aria-label="Instagram" class="social-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+        <a href="#" aria-label="WhatsApp" class="social-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3Zm0 16.2a7.2 7.2 0 0 1-3.7-1l-.3-.2-2.7.7.7-2.6-.2-.3A7.2 7.2 0 1 1 12 19.2Zm3.9-5.4c-.2-.1-1.3-.6-1.5-.7-.2-.1-.3-.1-.5.1s-.6.7-.7.8-.3.2-.5.1a5.9 5.9 0 0 1-2.9-2.5c-.2-.4.2-.4.6-1.2.1-.1 0-.3 0-.4l-.7-1.6c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.3c.1.2 1.6 2.5 3.9 3.4.5.2.9.4 1.3.5.5.1 1 .1 1.4.1.4-.1 1.3-.5 1.5-1 .2-.5.2-.9.1-1Z"/></svg></a>
+        <a href="#" aria-label="LinkedIn" class="social-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21h-4v-5.5c0-1.3-.02-3-1.85-3-1.85 0-2.13 1.4-2.13 2.9V21h-4V9Z"/></svg></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; <span id="year"></span> MG AIR CARGO. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- ============ BACK TO TOP ============ -->
+<button id="backToTop" class="back-to-top" aria-label="Back to top">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<script>
+/* =========================================================
+   MG AIR CARGO — script.js
+   Vanilla JS only. No frameworks, no dependencies.
+   ========================================================= */
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ---------- Footer year ---------- */
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ---------- Sticky navbar background on scroll ---------- */
+  const navbar = document.getElementById('navbar');
+  const backToTop = document.getElementById('backToTop');
+
+  function handleScrollUI() {
+    const scrolled = window.scrollY > 60;
+    navbar.classList.toggle('scrolled', scrolled);
+    backToTop.classList.toggle('show', window.scrollY > 500);
+  }
+  window.addEventListener('scroll', handleScrollUI, { passive: true });
+  handleScrollUI();
+
+  /* ---------- Mobile hamburger menu ---------- */
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+
+  hamburger.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  // Close mobile menu after a link is tapped
+  navLinks.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* ---------- Smooth scrolling for in-page anchors ---------- */
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const targetId = this.getAttribute('href');
+      if (targetId.length <= 1) return; // ignore bare "#"
+      const target = document.querySelector(targetId);
+      if (!target) return;
+      e.preventDefault();
+      const offset = 80; // account for fixed navbar height
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+
+  /* ---------- Active navigation highlight on scroll ---------- */
+  const sections = ['home', 'services', 'about', 'contact']
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+  const navAnchors = document.querySelectorAll('.nav-link');
+
+  function highlightActiveNav() {
+    const scrollPos = window.scrollY + 120;
+    let currentId = sections[0]?.id;
+
+    sections.forEach(section => {
+      if (section.offsetTop <= scrollPos) currentId = section.id;
+    });
+
+    navAnchors.forEach(link => {
+      link.classList.toggle('active-link', link.getAttribute('href') === `#${currentId}`);
+    });
+  }
+  window.addEventListener('scroll', highlightActiveNav, { passive: true });
+  highlightActiveNav();
+
+  /* ---------- Back-to-top button ---------- */
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* ---------- Scroll reveal animation (IntersectionObserver) ---------- */
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    // Fallback: reveal everything immediately if IO isn't supported
+    revealEls.forEach(el => el.classList.add('in-view'));
+  }
+
+  /* ---------- Hero image slider (simple auto-rotating crossfade) ---------- */
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots = document.querySelectorAll('.dot');
+  let currentSlide = 0;
+  let sliderTimer;
+
+  function goToSlide(index) {
+    slides[currentSlide]?.classList.remove('active');
+    dots[currentSlide]?.classList.remove('active');
+    currentSlide = (index + slides.length) % slides.length;
+    slides[currentSlide]?.classList.add('active');
+    dots[currentSlide]?.classList.add('active');
+  }
+
+  function startSlider() {
+    sliderTimer = setInterval(() => goToSlide(currentSlide + 1), 5500);
+  }
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      clearInterval(sliderTimer);
+      goToSlide(i);
+      startSlider();
+    });
+  });
+
+  if (slides.length) startSlider();
+
+  /* ---------- Button ripple effect ---------- */
+  document.querySelectorAll('[data-ripple]').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      const rect = this.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      const size = Math.max(rect.width, rect.height);
+      ripple.className = 'ripple-el';
+      ripple.style.width = ripple.style.height = `${size}px`;
+      ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+      ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 650);
+    });
+  });
+
+  /* ---------- Contact / Call button micro-animation ---------- */
+  const callBtn = document.getElementById('callBtn');
+  if (callBtn) {
+    callBtn.addEventListener('click', () => {
+      callBtn.classList.remove('pulse-once');
+      // force reflow so the animation can re-trigger on repeated clicks
+      void callBtn.offsetWidth;
+      callBtn.classList.add('pulse-once');
+    });
+  }
+
+});
+
+</script>
+</body>
+</html>
